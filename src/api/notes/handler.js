@@ -12,7 +12,7 @@ class NotesHandler {
       
     
    
-    postNoteHandler(request) {
+    postNoteHandler(request, h) {
       const { title = 'untitled', body, tags } = request.payload;
    
       const noteId = this._service.addNote({ title, body, tags });
@@ -39,22 +39,24 @@ class NotesHandler {
         };
       }
 
-      getNoteByIdHandler(request) {
-        const { id } = request.payload;
-        const note = this._service.getNoteById(id);
-        return {
-          status: 'success',
-          data: {
-            note,
-          },
-        };
-      } catch (error) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(404);
-        return response;
+      getNoteByIdHandler(request, h) {
+        try {
+          const { id } = request.params;
+          const note = this._service.getNoteById(id);
+          return {
+            status: 'success',
+            data: {
+              note,
+            },
+          };
+        } catch (error) {
+          const response = h.response({
+            status: 'fail',
+            message: error.message,
+          });
+          response.code(404);
+          return response;
+        }
       }
 
       putNoteByIdHandler(request, h) {
@@ -75,7 +77,8 @@ class NotesHandler {
           response.code(404);
           return response;
         }
-      } deleteNoteByIdHandler(request, h) {
+      } 
+      deleteNoteByIdHandler(request, h) {
         try {
           const { id } = request.params;
           this._service.deleteNoteById(id);
