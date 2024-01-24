@@ -3,4 +3,5 @@ notes-api-webserver.pem
 node_modules
 notes-api-web-server.pem
 .npm install node-pg-migrateenv
+.env
 .prod.env
